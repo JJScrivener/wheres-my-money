@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/add_transaction_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:baselineAligned="false"
+        android:onClick="onClickAdd"
+        android:text="@string/add_transaction_lbl"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/transaction_date_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/transaction_date_lbl"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/transaction_date_etxt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/transaction_date_etxt" />
+
+    <TextView
+        android:id="@+id/transaction_value_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="@string/transaction_value_lbl"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/transaction_date_txt"
+        app:layout_constraintTop_toBottomOf="@+id/transaction_item_txt" />
+
+    <TextView
+        android:id="@+id/transaction_item_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="@string/transaction_description_lbl"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/transaction_value_txt"
+        app:layout_constraintTop_toBottomOf="@+id/transaction_date_txt" />
+
+    <EditText
+        android:id="@+id/transaction_date_etxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="date|none|text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/transaction_value_etxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/transaction_value_txt"
+        app:layout_constraintStart_toStartOf="@+id/transaction_date_etxt"
+        app:layout_constraintTop_toTopOf="@+id/transaction_value_txt" />
+
+    <EditText
+        android:id="@+id/transaction_description_etxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/transaction_item_txt"
+        app:layout_constraintStart_toStartOf="@+id/transaction_value_etxt"
+        app:layout_constraintTop_toTopOf="@+id/transaction_item_txt" />
+
+    <Switch
+        android:id="@+id/expense_swt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:checked="true"
+        android:text="@string/expense_switch_lbl"
+        app:layout_constraintBottom_toTopOf="@+id/add_transaction_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

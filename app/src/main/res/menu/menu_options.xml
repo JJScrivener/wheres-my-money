@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="AlwaysShowAction">
+
+    <item
+        android:id="@+id/settings_menu_btn"
+        android:title="@string/settings_name"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/add_transaction_menu_btn"
+        android:title="@string/new_transaction_lbl"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/view_transactions_menu_btn"
+        android:title="@string/view_transactions_lbl"
+        app:showAsAction="never"/>
+</menu>

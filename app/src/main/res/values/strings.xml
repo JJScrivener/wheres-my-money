@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Expense Tracker 2.0</string>
+    <string name="settings_name">Settings</string>
+
+    <!--Main Activity labels-->
+    <string name="new_transaction_lbl">New Transaction</string>
+    <string name="view_transactions_lbl">View Transactions</string>
+    <string name="weekly_goal_lbl">Weekly Goal</string>
+    <string name="weekly_expenditure_lbl">This Week</string>
+    <string name="weekly_remaining_lbl">Remaining</string>
+
+    <!--New Transaction Activity labels-->
+    <string name="add_transaction_lbl">Add</string>
+    <string name="transaction_date_lbl">Date</string>
+    <string name="transaction_value_lbl">Value</string>
+    <string name="transaction_description_lbl">Item</string>
+    <string name="expense_switch_lbl">Expense</string>
+
+    <!--Settings Activity labels-->
+    <string name="start_date_lbl">Budget Start Date</string>
+    <string name="currency_lbl">Budget Currency</string>
+    <!--<string name="weekly_goal_lbl">Weekly Goal</string> already in main activity-->
+    <string name="update_lbl">Update</string>
+
+    <!--Transaction View Activity labels-->
+    <string name="remove_transaction_lbl">Remove</string>
+    <string name="transaction_ID_lbl">Transaction ID</string>
+
+
+</resources>
