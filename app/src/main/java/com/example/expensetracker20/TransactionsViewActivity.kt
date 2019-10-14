@@ -1,12 +1,10 @@
 package com.example.expensetracker20
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_transactions_view.*
 
 class TransactionsViewActivity : AppCompatActivity() {
@@ -29,7 +27,6 @@ class TransactionsViewActivity : AppCompatActivity() {
                     budget.removeTransaction(index)
                     transactions_rec.adapter?.notifyItemRemoved(index)
                     transactions_rec.adapter?.notifyItemRangeChanged(index, itemCount)
-                    saveBudget()
                     transaction_ID_etxt.text.clear()
                 } else {
                     Toast.makeText(
@@ -58,14 +55,8 @@ class TransactionsViewActivity : AppCompatActivity() {
         return valid
     }
 
-    private fun saveBudget() {
-        val sharedPref = getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        val gson = Gson()
-        val json = gson.toJson(budget)
-        editor.putString("task list", json)
-        editor.apply()
+    override fun onPause() {
+        saveBudget(applicationContext)
+        super.onPause()
     }
-
 }
-

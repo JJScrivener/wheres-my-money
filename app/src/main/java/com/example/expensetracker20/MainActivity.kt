@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        loadBudget()
+        loadBudget(applicationContext)
         updateBudgetViews()
     }
 
@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        saveBudget()
+        saveBudget(applicationContext)
         super.onPause()
     }
 
@@ -71,33 +71,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClick(view: View) {
-        when(view){
+        when (view) {
             new_transaction_btn -> {
                 val intent = Intent(this, NewTransactionActivity::class.java)
                 startActivity(intent)
             }
-        }
-    }
-
-    private fun saveBudget() {
-        val sharedPref = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        val gson = Gson()
-        val json = gson.toJson(budget)
-        editor.putString(BUDGET, json)
-        editor.apply()
-    }
-
-    private fun loadBudget() {
-        val sharedPref = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPref.getString(BUDGET, null)
-        val type = object : TypeToken<Budget>() {}.type
-
-        val temp: Budget? = gson.fromJson(json, type)
-
-        if(temp != null){
-            budget = temp
         }
     }
 
@@ -117,4 +95,26 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+}
+
+fun saveBudget(context: Context) {
+    val sharedPref = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
+    val editor = sharedPref.edit()
+    val gson = Gson()
+    val json = gson.toJson(budget)
+    editor.putString(BUDGET, json)
+    editor.apply()
+}
+
+fun loadBudget(context: Context) {
+    val sharedPref = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
+    val gson = Gson()
+    val json = sharedPref.getString(BUDGET, null)
+    val type = object : TypeToken<Budget>() {}.type
+
+    val temp: Budget? = gson.fromJson(json, type)
+
+    if (temp != null) {
+        budget = temp
+    }
 }

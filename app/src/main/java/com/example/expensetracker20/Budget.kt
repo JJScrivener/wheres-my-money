@@ -182,7 +182,7 @@ class Budget(newStartDate: String) : Serializable {
         this.currency = currency
     }
 
-    fun getStartDate(): String{
+    fun getStartDate(): String {
         return this.startDate
     }
 
@@ -202,7 +202,7 @@ class Budget(newStartDate: String) : Serializable {
         return this.transactions[position].description
     }
 
-    fun removeTransaction(position: Int){
+    fun removeTransaction(position: Int) {
         transactions.removeAt(position)
     }
 

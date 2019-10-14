@@ -19,9 +19,9 @@ class ViewAdaptor : RecyclerView.Adapter<CustomViewHolder>() {
         holder.view.transaction_date_rec?.text = budget.getTransactionDate(position).take(5)
         holder.view.transaction_item_rec?.text = budget.getTransactionDescription(position)
 
-        val value = if(budget.getTransactionValue(position).rem(1) == 0.0){
+        val value = if (budget.getTransactionValue(position).rem(1) == 0.0) {
             "${budget.getCurrency()}${budget.getTransactionValue(position).toInt().toString()}"
-        }else{
+        } else {
             "${budget.getCurrency()}${budget.getTransactionValue(position).toString()}"
         }
         holder.view.transaction_value_rec?.text = value
