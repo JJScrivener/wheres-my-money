@@ -19,9 +19,9 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        findViewById<TextView>(R.id.start_date_etxt).text = budget?.startDate
-        findViewById<TextView>(R.id.weekly_goal_settings_etxt).text = budget?.weeklyGoal.toString()
-        findViewById<TextView>(R.id.currency_etxt).text = budget?.currency
+        findViewById<TextView>(R.id.start_date_etxt).text = budget?.getStartDate()
+        findViewById<TextView>(R.id.weekly_goal_settings_etxt).text = budget?.getWeeklyGoal().toString()
+        findViewById<TextView>(R.id.currency_etxt).text = budget?.getCurrency()
 
     }
 
@@ -29,9 +29,9 @@ class SettingsActivity : AppCompatActivity() {
         when(view){
             update_btn -> {
                 if(checkValid()){
-                    budget?.startDate = start_date_etxt.text.toString()
-                    budget?.weeklyGoal = weekly_goal_settings_etxt.text.toString().toDouble()
-                    budget?.currency = currency_etxt.text.toString()
+                    budget?.setStartDate(start_date_etxt.text.toString())
+                    budget?.setWeeklyGoal(weekly_goal_settings_etxt.text.toString().toDouble())
+                    budget?.setCurrency(currency_etxt.text.toString())
                     saveBudget()
                 }
             }

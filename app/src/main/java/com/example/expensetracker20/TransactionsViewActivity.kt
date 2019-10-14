@@ -22,9 +22,9 @@ class TransactionsViewActivity : AppCompatActivity() {
         when (view) {
             remove_transaction_btn -> {
                 val index = transaction_ID_etxt.text.toString().toInt().minus(1)
-                val itemCount = budget?.transactions?.size?.minus(index + 1)
+                val itemCount = budget?.getSize()?.minus(index + 1)
 
-                budget?.transactions?.removeAt(index)
+                budget?.removeTransaction(index)
                 transactions_rec.adapter?.notifyItemRemoved(index)
                 transactions_rec.adapter?.notifyItemRangeChanged(index, itemCount!!)
                 saveBudget()

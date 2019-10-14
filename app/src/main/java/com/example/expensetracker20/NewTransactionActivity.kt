@@ -32,8 +32,7 @@ class NewTransactionActivity : AppCompatActivity() {
             }
 
             val description = transaction_description_etxt.text.toString()
-            val newTransaction = Transaction(date, value, description)
-            budget?.addTransaction(newTransaction)
+            budget?.addTransaction(date, value, description)
             saveBudget()
 
 

@@ -102,17 +102,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateBudgetViews() {
 
-        val balance = "${budget?.currency} ${budget?.getBalance().toString()}"
+        val balance = "${budget?.getCurrency()} ${budget?.getBalance().toString()}"
         val thisWeek = budget?.getThisWeekBalance()?.times(-1)
         val thisWeekRemaining = if (thisWeek != null) {
-            budget?.weeklyGoal!!.minus(thisWeek)
+            budget?.getThisWeekBalance()!!.minus(thisWeek)
         } else {
             0.0
         }
 
         balance_dtxt.text = balance
 
-        weekly_goal_dtxt.text = budget?.weeklyGoal.toString()
+        weekly_goal_dtxt.text = budget?.getWeeklyGoal().toString()
 
         weekly_expenditure_dtxt.text = thisWeek.toString()
 

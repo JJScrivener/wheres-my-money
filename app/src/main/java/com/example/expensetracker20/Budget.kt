@@ -13,10 +13,14 @@ import java.time.format.DateTimeFormatter
         income and expenses for the budget.
  */
 
-class Budget(var startDate: String) : Serializable {
-    val transactions: MutableList<Transaction> = mutableListOf()
-    var weeklyGoal = 100.0
-    var currency = ""
+class Budget(newStartDate: String) : Serializable {
+
+    private class Transaction(val date: String, val value: Double, val description: String)
+
+    private val transactions: MutableList<Transaction> = mutableListOf()
+    private var weeklyGoal = 100.0
+    private var currency = ""
+    private var startDate = newStartDate
 
 
     /*
@@ -26,8 +30,8 @@ class Budget(var startDate: String) : Serializable {
      */
     fun getBalance(): Double {
         var balance = 0.0
-        for (i in transactions.indices) {
-            balance += transactions[i].value
+        for (i in this.transactions.indices) {
+            balance += this.transactions[i].value
         }
         return balance
     }
@@ -37,30 +41,34 @@ class Budget(var startDate: String) : Serializable {
         Returns: -
         Description: Adds the new transaction in the correct chronological order.
     */
-    fun addTransaction(transaction: Transaction) {
-        if (transactions.size == 0) {
-            transactions.add(transaction)
+    fun addTransaction(date: String, value: Double, description: String) {
+        val transaction = Transaction(date, value, description)
+        if (this.transactions.size == 0) {
+            this.transactions.add(transaction)
         } else {
             var index = 0
             var indexDate =
-                LocalDate.parse(transactions[index].date, DateTimeFormatter.ofPattern(dateFormat))
+                LocalDate.parse(
+                    this.transactions[index].date,
+                    DateTimeFormatter.ofPattern(dateFormat)
+                )
             val transDate =
                 LocalDate.parse(transaction.date, DateTimeFormatter.ofPattern(dateFormat))
             while (true) {
                 if (indexDate.isBefore(transDate.plusDays(1))) {
                     index++
                 } else {
-                    transactions.add(index, transaction)
+                    this.transactions.add(index, transaction)
                     break
                 }
                 if (index == transactions.size) {
-                    transactions.add(transaction)
+                    this.transactions.add(transaction)
                     break
                 }
 
                 indexDate =
                     LocalDate.parse(
-                        transactions[index].date, DateTimeFormatter.ofPattern(dateFormat)
+                        this.transactions[index].date, DateTimeFormatter.ofPattern(dateFormat)
                     )
             }
 
@@ -73,8 +81,8 @@ class Budget(var startDate: String) : Serializable {
         Description: Prints the budget transactions. Used for debugging.
     */
     fun printBudget() {
-        for (i in transactions.indices) {
-            println("date: ${transactions[i].date.toString()}, value: ${transactions[i].value}, description: ${transactions[i].description}")
+        for (i in this.transactions.indices) {
+            println("date: ${this.transactions[i].date}, value: ${this.transactions[i].value}, description: ${this.transactions[i].description}")
         }
     }
 
@@ -90,14 +98,17 @@ class Budget(var startDate: String) : Serializable {
 
         val pBal: MutableList<Double> = mutableListOf()
         var pBalIndex = 0
-        var periodDate = LocalDate.parse(startDate, DateTimeFormatter.ofPattern(dateFormat))
+        var periodDate = LocalDate.parse(this.startDate, DateTimeFormatter.ofPattern(dateFormat))
 
         pBal.add(0.0)
         var index = 0
-        while (index < transactions.size) {
+        while (index < this.transactions.size) {
 
             val indexDate =
-                LocalDate.parse(transactions[index].date, DateTimeFormatter.ofPattern(dateFormat))
+                LocalDate.parse(
+                    this.transactions[index].date,
+                    DateTimeFormatter.ofPattern(dateFormat)
+                )
 
             // Checks if the transaction in is the current period or not. This assumes that transactions[] is ordered by date.
             if ((indexDate.dayOfMonth == periodDate.dayOfMonth || period != "daily") &&
@@ -105,7 +116,7 @@ class Budget(var startDate: String) : Serializable {
                 (indexDate.month == periodDate.month || period == "weekly") &&
                 (indexDate.year == periodDate.year || period == "weekly")
             ) {
-                pBal[pBalIndex] += transactions[index].value
+                pBal[pBalIndex] += this.transactions[index].value
                 index++
             } else {
                 pBal.add(0.0)
@@ -124,7 +135,7 @@ class Budget(var startDate: String) : Serializable {
     }
 
     fun getThisWeekBalance(): Double {
-        var date = LocalDate.parse(startDate, DateTimeFormatter.ofPattern(dateFormat))
+        var date = LocalDate.parse(this.startDate, DateTimeFormatter.ofPattern(dateFormat))
         val today = LocalDate.parse(currentDate, DateTimeFormatter.ofPattern(dateFormat))
         var thisWeekBalance = 0.0
 
@@ -136,21 +147,64 @@ class Budget(var startDate: String) : Serializable {
         for (index in transactions.indices) {
 
             val indexDate =
-                LocalDate.parse(transactions[index].date, DateTimeFormatter.ofPattern(dateFormat))
+                LocalDate.parse(
+                    this.transactions[index].date,
+                    DateTimeFormatter.ofPattern(dateFormat)
+                )
             if (indexDate.isBefore(date.plusWeeks(1)) && indexDate.isAfter(date)) {
-                thisWeekBalance += transactions[index].value
+                thisWeekBalance += this.transactions[index].value
             }
         }
         return thisWeekBalance
     }
 
     fun deleteTransactions() {
-        for (i in transactions.indices) {
-            transactions.removeAt(0)
+        for (i in this.transactions.indices) {
+            this.transactions.removeAt(0)
         }
     }
 
     fun getSize(): Int {
-        return transactions.size
+        return this.transactions.size
+    }
+
+    fun getWeeklyGoal(): Double {
+        return this.weeklyGoal
+    }
+
+    fun setWeeklyGoal(goal: Double) {
+        this.weeklyGoal = goal
+    }
+
+    fun getCurrency(): String {
+        return this.currency
+    }
+
+    fun setCurrency(currency: String) {
+        this.currency = currency
+    }
+
+    fun getStartDate(): String{
+        return this.startDate
+    }
+
+    fun setStartDate(startDate: String) {
+        this.startDate = startDate
+    }
+
+    fun getTransactionDate(position: Int): String {
+        return this.transactions[position].date
+    }
+
+    fun getTransactionValue(position: Int): Double {
+        return this.transactions[position].value
+    }
+
+    fun getTransactionDescription(position: Int): String {
+        return this.transactions[position].description
+    }
+
+    fun removeTransaction(position: Int){
+        transactions.removeAt(position)
     }
 }
