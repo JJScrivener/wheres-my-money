@@ -22,13 +22,13 @@ class TransactionsViewActivity : AppCompatActivity() {
     fun onClickRemove(view: View) {
         when (view) {
             remove_transaction_btn -> {
-                if (validTransactionID(transaction_ID_etxt.text.toString(), budget!!.getSize())) {
+                if (validTransactionID(transaction_ID_etxt.text.toString(), budget.getSize())) {
                     val index = transaction_ID_etxt.text.toString().toInt().minus(1)
-                    val itemCount = budget?.getSize()?.minus(index + 1)
+                    val itemCount = budget.getSize().minus(index + 1)
 
-                    budget?.removeTransaction(index)
+                    budget.removeTransaction(index)
                     transactions_rec.adapter?.notifyItemRemoved(index)
-                    transactions_rec.adapter?.notifyItemRangeChanged(index, itemCount!!)
+                    transactions_rec.adapter?.notifyItemRangeChanged(index, itemCount)
                     saveBudget()
                     transaction_ID_etxt.text.clear()
                 } else {

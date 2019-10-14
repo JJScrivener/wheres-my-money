@@ -14,9 +14,9 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        findViewById<TextView>(R.id.start_date_etxt).text = budget?.getStartDate()
-        findViewById<TextView>(R.id.weekly_goal_settings_etxt).text = budget?.getWeeklyGoal().toString()
-        findViewById<TextView>(R.id.currency_etxt).text = budget?.getCurrency()
+        findViewById<TextView>(R.id.start_date_etxt).text = budget.getStartDate()
+        findViewById<TextView>(R.id.weekly_goal_settings_etxt).text = budget.getWeeklyGoal().toString()
+        findViewById<TextView>(R.id.currency_etxt).text = budget.getCurrency()
 
     }
 
@@ -26,10 +26,10 @@ class SettingsActivity : AppCompatActivity() {
                 val date = start_date_etxt.text.toString()
                 val value = weekly_goal_settings_etxt.text.toString()
 
-                if((budget!!.checkValid(date,value,"Updating settings",applicationContext)) ){
-                    budget?.setStartDate(start_date_etxt.text.toString())
-                    budget?.setWeeklyGoal(weekly_goal_settings_etxt.text.toString().toDouble())
-                    budget?.setCurrency(currency_etxt.text.toString())
+                if((budget.checkValid(date,value,"Updating settings",applicationContext)) ){
+                    budget.setStartDate(start_date_etxt.text.toString())
+                    budget.setWeeklyGoal(weekly_goal_settings_etxt.text.toString().toDouble())
+                    budget.setCurrency(currency_etxt.text.toString())
                     saveBudget()
                 }
             }

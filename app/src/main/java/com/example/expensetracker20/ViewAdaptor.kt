@@ -16,19 +16,19 @@ class ViewAdaptor : RecyclerView.Adapter<CustomViewHolder>() {
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         holder.view.transaction_ID_rec?.text = position.plus(1).toString()
-        holder.view.transaction_date_rec?.text = budget?.getTransactionDate(position)?.take(5)
-        holder.view.transaction_item_rec?.text = budget?.getTransactionDescription(position)
+        holder.view.transaction_date_rec?.text = budget.getTransactionDate(position).take(5)
+        holder.view.transaction_item_rec?.text = budget.getTransactionDescription(position)
 
-        val value = if(budget?.getTransactionValue(position)?.rem(1) == 0.0){
-            "${budget?.getCurrency()}${budget?.getTransactionValue(position)?.toInt().toString()}"
+        val value = if(budget.getTransactionValue(position).rem(1) == 0.0){
+            "${budget.getCurrency()}${budget.getTransactionValue(position).toInt().toString()}"
         }else{
-            "${budget?.getCurrency()}${budget?.getTransactionValue(position).toString()}"
+            "${budget.getCurrency()}${budget.getTransactionValue(position).toString()}"
         }
         holder.view.transaction_value_rec?.text = value
     }
 
     override fun getItemCount(): Int {
-        return budget!!.getSize()
+        return budget.getSize()
     }
 
 

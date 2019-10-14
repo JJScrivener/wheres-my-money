@@ -14,7 +14,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 const val dateFormat = "dd/MM/yyyy"
-var budget: Budget? = null
+const val SHARED_PREFS = "shared preferences"
+const val BUDGET = "budget"
+
+var budget = Budget("01/01/2019")
 val calendar: Calendar = Calendar.getInstance()
 val format = SimpleDateFormat(dateFormat)
 val currentDate: String = format.format(calendar.time)
@@ -77,42 +80,36 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveBudget() {
-        val sharedPref = getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
         val gson = Gson()
         val json = gson.toJson(budget)
-        editor.putString("task list", json)
+        editor.putString(BUDGET, json)
         editor.apply()
     }
 
     private fun loadBudget() {
-        println("started")
-        val sharedPref = getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
         val gson = Gson()
-        val json = sharedPref.getString("task list", null)
+        val json = sharedPref.getString(BUDGET, null)
         val type = object : TypeToken<Budget>() {}.type
 
-        budget = gson.fromJson(json, type)
+        val temp: Budget? = gson.fromJson(json, type)
 
-        if (budget == null) {
-            //choose a random date to start if we don't have a budget yet
-            budget = Budget("01/01/2019")
+        if(temp != null){
+            budget = temp
         }
     }
 
     private fun updateBudgetViews() {
 
-        val balance = "${budget?.getCurrency()} ${budget?.getBalance().toString()}"
-        val thisWeek = budget?.getThisWeekBalance()?.times(-1)
-        val thisWeekRemaining = if (thisWeek != null) {
-            budget?.getThisWeekBalance()!!.minus(thisWeek)
-        } else {
-            0.0
-        }
+        val balance = "${budget.getCurrency()} ${budget.getBalance().toString()}"
+        val thisWeek = budget.getThisWeekBalance().times(-1)
+        val thisWeekRemaining = budget.getWeeklyGoal().minus(thisWeek)
 
         balance_dtxt.text = balance
 
-        weekly_goal_dtxt.text = budget?.getWeeklyGoal().toString()
+        weekly_goal_dtxt.text = budget.getWeeklyGoal().toString()
 
         weekly_expenditure_dtxt.text = thisWeek.toString()
 

@@ -20,7 +20,7 @@ class NewTransactionActivity : AppCompatActivity() {
     fun onClickAdd(view: View) {
         val date = transaction_date_etxt.text.toString()
         val valueString = transaction_value_etxt.text.toString()
-        if (budget!!.checkValid(date,valueString,"Adding transaction to the budget",applicationContext)) {
+        if (budget.checkValid(date,valueString,"Adding transaction to the budget",applicationContext)) {
 
             val value = if (expense_swt.isChecked) {
                 transaction_value_etxt.text.toString().toDouble().times(-1)
@@ -29,7 +29,7 @@ class NewTransactionActivity : AppCompatActivity() {
             }
 
             val description = transaction_description_etxt.text.toString()
-            budget?.addTransaction(date, value, description)
+            budget.addTransaction(date, value, description)
             saveBudget()
 
             transaction_description_etxt.text.clear()
