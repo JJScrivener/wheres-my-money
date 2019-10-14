@@ -5,13 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_new_transaction.*
 import kotlinx.android.synthetic.main.activity_settings.*
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeParseException
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -28,7 +23,10 @@ class SettingsActivity : AppCompatActivity() {
     fun onClickUpdate(view: View){
         when(view){
             update_btn -> {
-                if(checkValid()){
+                val date = start_date_etxt.text.toString()
+                val value = weekly_goal_settings_etxt.text.toString()
+
+                if((budget!!.checkValid(date,value,"Updating settings",applicationContext)) ){
                     budget?.setStartDate(start_date_etxt.text.toString())
                     budget?.setWeeklyGoal(weekly_goal_settings_etxt.text.toString().toDouble())
                     budget?.setCurrency(currency_etxt.text.toString())
@@ -36,54 +34,6 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private fun checkValid():Boolean{
-        val date = start_date_etxt.text.toString()
-        val value = weekly_goal_settings_etxt.text.toString()
-
-        var decimalPoint = false
-        var valErr = ""
-        var dateErr = ""
-        var err = "Updating the settings"
-
-
-        //does it work if the last value is a decimal point i.e. 20.
-        //Check for error in the value
-
-        for (i in value.indices) {
-            if (((value[i].toByte() < 48 || value[i].toByte() > 57) && value[i].toByte() != '.'.toByte()) || (value[i].toByte() == '.'.toByte() && decimalPoint)) {
-                valErr = "Goal must be a decimal number"
-                break
-            }
-            if (value[i].toByte() == '.'.toByte()) {
-                decimalPoint = true
-            }
-        }
-
-        //Check for error in the date
-        try {
-            LocalDate.parse(date, DateTimeFormatter.ofPattern(dateFormat))
-        } catch (e: DateTimeParseException) {
-            dateErr = "Not a valid date, please use format dd/mm/yyyy"
-        }
-
-        return if (dateErr == valErr) {
-            // no errors
-            Toast.makeText(applicationContext, err, Toast.LENGTH_SHORT).show()
-            true
-        } else {
-            err = when {
-                dateErr == "" -> valErr
-                valErr == "" -> dateErr
-                else -> "$dateErr also $valErr"
-            }
-            Toast.makeText(applicationContext, err, Toast.LENGTH_LONG).show()
-            false
-
-        }
-
-
     }
 
     private fun saveBudget() {

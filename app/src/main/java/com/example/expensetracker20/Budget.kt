@@ -1,9 +1,13 @@
 package com.example.expensetracker20
 
-import android.util.Log
+import android.content.Context
+import android.widget.Toast
 import java.io.Serializable
+import java.lang.NumberFormatException
+import java.text.ParseException
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 /*
     Author: Jen
@@ -36,11 +40,6 @@ class Budget(newStartDate: String) : Serializable {
         return balance
     }
 
-    /*
-        Parameters: transaction - The new com.example.expensetracker20.Transaction to be added to the budget.
-        Returns: -
-        Description: Adds the new transaction in the correct chronological order.
-    */
     fun addTransaction(date: String, value: Double, description: String) {
         val transaction = Transaction(date, value, description)
         if (this.transactions.size == 0) {
@@ -206,5 +205,39 @@ class Budget(newStartDate: String) : Serializable {
 
     fun removeTransaction(position: Int){
         transactions.removeAt(position)
+    }
+
+    fun checkValid(date: String, value: String, allGood: String, context: Context): Boolean {
+        var valErr = ""
+        var dateErr = ""
+        var err = allGood
+
+        //Check for error in the value
+        try {
+            value.toDouble()
+        } catch (e: NumberFormatException) {
+            valErr = "Value must be a decimal number"
+        }
+
+        //Check for error in the date
+        try {
+            LocalDate.parse(date, DateTimeFormatter.ofPattern(dateFormat))
+        } catch (e: DateTimeParseException) {
+            dateErr = "Not a valid date, please use format dd/mm/yyyy"
+        }
+
+        return if (dateErr == valErr) {
+            // no errors
+            Toast.makeText(context, err, Toast.LENGTH_SHORT).show()
+            true
+        } else {
+            err = when {
+                dateErr == "" -> valErr
+                valErr == "" -> dateErr
+                else -> "$dateErr also $valErr"
+            }
+            Toast.makeText(context, err, Toast.LENGTH_LONG).show()
+            false
+        }
     }
 }
